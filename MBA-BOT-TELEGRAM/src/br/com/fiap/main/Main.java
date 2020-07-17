@@ -8,9 +8,7 @@ public class Main {
 
 
 		ConversationController conversationController = new ConversationController();
-
-		Thread thread=new Thread(conversationController);
-		thread.start();
+		conversationController.receiveMessages();
 
 	}
 }

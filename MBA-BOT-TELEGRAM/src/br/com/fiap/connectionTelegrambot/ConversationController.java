@@ -1,15 +1,12 @@
 package br.com.fiap.connectionTelegrambot;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.model.Update;
@@ -20,6 +17,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
+import com.sun.javafx.scene.control.skin.Utils;
 
 import br.com.fiap.properties.PropertiesLoader;
 
@@ -34,14 +32,15 @@ import br.com.fiap.properties.PropertiesLoader;
  * @author lucasrodriguesdonascimento
  *
  */
-public class ConversationController implements Runnable{
+public class ConversationController{
 
 	private String token;
-	Properties prop = PropertiesLoader.getProp();
 	private GetUpdatesResponse getPedingMessages;
 	private SendResponse sendResponse;
 	private BaseResponse baseResponse;
+	String listaSaudacao [] = {"bom dia","boa tarde","boa noite","oi","olá","iae","koe","tchau","xau","falo","obrigado"};
 	static final Logger logger = LogManager.getLogger(ConversationController.class.getName());
+	Properties prop = PropertiesLoader.getProp();
 	int offSet = 0;
 
 
@@ -59,31 +58,35 @@ public class ConversationController implements Runnable{
 
 		if(updates.isPresent()) {
 			updates.get().forEach(up -> {
-
-				System.out.println(msg);
+				
+				enviarEscrevendo(bot, up);
 
 				switch (msg) {
+
+				case "saudacao":
+					sendResponse = textoPersonalizavel(bot, up ,up.message().text().toUpperCase().charAt(1) + "  " +  up.message().from().firstName() + 
+							" , Tudo bem ? " + EmojiSorrir);
+					break;
 				case "/start":
 					//envio da mensagem de resposta
 					sendResponse = textoPersonalizavel(bot, up , "Iae blz ? Digite /sobre para saber mais ..." + EmojiSorrir);
 					//verificação de mensagem enviada com sucesso
 					System.out.println("Mensagem Enviada?" +sendResponse.isOk());
 					System.out.println("Recebendo mensagem:"+ up.message().text());
-					enviarEscrevendo(bot, up);
 					break;
 
+
 				default:
-					enviarEscrevendo(bot, up);
 					sendResponse = bot.execute(new SendMessage(up.message().chat().id(),"Nao Entendi ...."));
 					break;
 				}
-
 			});
 		}else {
-			System.out.println("Objeto Vazio");
+			logger.info("Objeto Vazio");
 		}
 
 	}
+
 
 	/**
 	 * Metodo responsavel por personalizar o envio da mensagem para o cliente
@@ -100,8 +103,7 @@ public class ConversationController implements Runnable{
 	 * mensagens pendentes a partir de um off-set (limite inicial)
 	 */
 
-	@Override
-	public void run() {
+	public void receiveMessages() {
 
 		TelegramBot bot = BotAdapterToken();
 
@@ -110,31 +112,31 @@ public class ConversationController implements Runnable{
 				getPedingMessages =  offSet(bot);
 				Optional<List<Update>> updates = Optional.ofNullable(getPedingMessages.updates());
 
-
-
 				if(updates.isPresent()) {
 					updates.get().forEach(up -> {
 						offSet = up.updateId() + 1;
 
-						System.out.println("Recebendo mensagem:"+ up.message().text());
-						sendMessageToTelegram(updates,bot,String.valueOf(up.message().text()));
+						logger.info("Recebendo mensagem:"+ up.message().text());
+
+						String saudacao = getSaudacao(listaSaudacao, up.message().text());
+						if(!(saudacao == null) && !saudacao.isEmpty()) {
+							sendMessageToTelegram(updates,bot,"saudacao");
+							saudacao = "";
+						}else {
+							sendMessageToTelegram(updates,bot,String.valueOf(up.message().text()));
+
+						}
 
 					});
 				}else {
-					System.out.println("Objeto Vazio");
+					logger.info("Objeto Vazio");
 				}
 			}
 		}catch(NullPointerException e) {
 			e.printStackTrace();
 		}finally {
-			try {
-				Thread.sleep(10000);
-				System.out.println("Aguardando as proximas mensagem");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
+			logger.info("While rodando");
+		}	
 	}
 
 	/**
@@ -166,6 +168,17 @@ public class ConversationController implements Runnable{
 		TelegramBot bot = TelegramBotAdapter.build(getToken());
 		return bot;
 	}		
+	
+	private String getSaudacao(String[] lista, String msg) {
+
+		for (String i : lista) {
+			if(i.equalsIgnoreCase(msg)) {
+				msg = i;
+				return msg;
+			}
+		}
+		return null;
+	}
 
 	public String getToken() {
 		return token;
