@@ -64,8 +64,8 @@ public class ConversationController{
 				switch (msg) {
 
 				case "saudacao":
-					sendResponse = textoPersonalizavel(bot, up ,up.message().text().toUpperCase().charAt(1) + "  " +  up.message().from().firstName() + 
-							" , Tudo bem ? " + EmojiSorrir);
+					sendResponse = textoPersonalizavel(bot, up , firstLettertoUpperCase(String.valueOf(up.message().text()) + "  " +  up.message().from().firstName() + 
+							" , Tudo bem ? " + EmojiSorrir));
 					break;
 				case "/start":
 					//envio da mensagem de resposta
@@ -88,6 +88,10 @@ public class ConversationController{
 	}
 
 
+	public String firstLettertoUpperCase(String letter) {
+		String s = letter.substring(0,1).toUpperCase() + letter.substring(1);
+		return s;	
+	}
 	/**
 	 * Metodo responsavel por personalizar o envio da mensagem para o cliente
 	 * @param bot
