@@ -7,6 +7,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
+ * 
+ * 
  * Classe responsavel por recuperar os atributos setados no properties
  * @author lucasrodriguesdonascimento
  *

@@ -13,6 +13,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Classe responsavel por consumir a NewsApi de acordo com a busca do usuario
+ * @author lucasrodriguesdonascimento
+ *
+ */
 public class NewsApi {
 	
 	static Properties prop = PropertiesLoader.getProp();

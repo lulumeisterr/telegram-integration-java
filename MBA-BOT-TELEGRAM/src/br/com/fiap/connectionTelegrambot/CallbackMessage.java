@@ -43,7 +43,7 @@ public class CallbackMessage{
 
 	/**
 	 * Metodo responsavel por executar comandos no Telegram para obter as 
-	 * mensagens pendentes a partir de um off-set (limite inicial)
+	 * mensagens pendentes a partir de um off-set (controle das mensagens processadas)
 	 */
 	public void receiveMessages() {
 
@@ -72,11 +72,15 @@ public class CallbackMessage{
 						}
 					});
 				}else {
-					logger.info("Objeto Vazio");
+					logger.info("Sem informacoes de mensagem");
 				}
 			}
 		}catch(NullPointerException e) {
 			e.printStackTrace();
+			logger.error("ERRO AO PROCESSAR A MENSAGEM!!!");
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.error("ERRO AO PROCESSAR A MENSAGEM!!!");
 		}finally {
 			logger.info("While rodando");
 		}	
@@ -98,7 +102,7 @@ public class CallbackMessage{
 	 */
 	private TelegramBot BotAdapterToken() {
 		setToken(String.valueOf(prop.getProperty("prop.telegramToken")));
-		logger.info("TokenBot : " +  getToken());
+//		logger.info("TokenBot : " +  getToken());
 		TelegramBot bot = TelegramBotAdapter.build(getToken());
 		return bot;
 	}		

@@ -7,6 +7,12 @@ package br.com.fiap.helper;
  */
 public class HelperString {
 
+	/**
+	 * Metodo responsavel por verificar se tem eh uma saudacao
+	 * @param lista
+	 * @param msg
+	 * @return
+	 */
 	public static String getSaudacao(String[] lista, String msg) {
 
 		for (String i : lista) {
@@ -18,6 +24,11 @@ public class HelperString {
 		return null;
 	}
 
+	/**
+	 * Obtendo a primeira letra da String , dava pra usar tambem replaceFirst
+	 * @param letter
+	 * @return
+	 */
 	public static String firstLettertoUpperCase(String letter) {
 		String s = letter.substring(0,1).toUpperCase() + letter.substring(1);
 		return s;	
@@ -32,6 +43,11 @@ public class HelperString {
 		return null;
 	}
 
+	/**
+	 * Verifica se contem /noticias
+	 * @param text
+	 * @return
+	 */
 	public static String getNoticia(String text) {
 		String keyWord = "/noticias";
 
@@ -43,7 +59,13 @@ public class HelperString {
 	}
 
 
-	public static String identifyDots(String description , String url) {
+	/**
+	 * Adiciona link para saber mais sobre a noticia
+	 * @param description
+	 * @param url
+	 * @return
+	 */
+	public static String addLinkNoticia(String description , String url) {
 		String text = "";	
 		text = description.concat("\n\n" + "**" + "Para saber mais acesse" + "**" + " : " + "\n\n" + url);
 		return text;
