@@ -1,14 +1,19 @@
 package br.com.fiap.main;
 
-import br.com.fiap.connectionTelegrambot.ConversationController;
+import br.com.fiap.connectionTelegrambot.CallbackMessage;
 
 public class Main {
 
 	public static void main(String[] args) {
 
 
-		ConversationController conversationController = new ConversationController();
-		conversationController.receiveMessages();
+		CallbackMessage conversationController = new CallbackMessage();
+
+		try {
+			conversationController.receiveMessages();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 }
