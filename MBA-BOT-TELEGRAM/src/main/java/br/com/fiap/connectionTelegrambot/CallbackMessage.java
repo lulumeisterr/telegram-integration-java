@@ -62,7 +62,7 @@ public class CallbackMessage {
                         logger.info("Recebendo mensagem:" + up.message().text());
                         Classification classification = Classification.getClassification(up.message().text());
                         String msg = String.valueOf(up.message().text());
-                        SendMessagesToTelegram.send(updates, bot, msg);
+                        SendMessagesToTelegram.send(updates, bot, classification, msg);
                     });
                 } else {
                     logger.info("Sem informacoes de mensagem");
