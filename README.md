@@ -31,7 +31,7 @@ Desenvolver um chatbot integrado ao Telegram que consiga responder a pelo menos 
 
 ### Rodando com Maven
  
-    <code>mvn exec:java</code>
+    mvn exec:java
 
 ## Informações sobre o bot
 
