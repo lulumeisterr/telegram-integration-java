@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class HelperString {
 
     static private final String[] listaSaudacao = {"bom dia", "oi", "olá", "iae", "koe", "oi tudo bem", "fmz", "fmza", "eae"};
-    static private final String[] listaNoticia = {"news", "notícia", "notícias", "noticia", "noticias"};
+    static private final String[] listaNoticia = {"news", "notícia", "noticia"};
 
     /**
      * Verifica se contem /ajuda ou /help
@@ -52,7 +52,7 @@ public class HelperString {
     public static boolean isNoticia(String message) {
 
         for (String i : listaSaudacao) {
-            if (i.equalsIgnoreCase(message)) {
+            if (i.contains(message)) {
                 return true;
             }
         }
