@@ -26,14 +26,15 @@ Desenvolver um chatbot integrado ao Telegram que consiga responder a pelo menos 
  - okhttp
  - java-telegram-bot-api
   
-## Para Inicializar o projeto
+## Configuração do projeto
+ - Configuracoes de tokens e endpoints estão no arquivo application.properties
 
-- Basta rodar a classe Main
-- Configuracoes de tokens e endpoints estão no arquivo application.properties
+### Rodando com Maven
+ 
+    <code>mvn exec:java</code>
 
 ## Informações sobre o bot
 
 - Nome do bot : @Fiap_mba_bot
 - Link do bot : https://web.telegram.org/#/im?p=@Fiap_mba_bot
-
 

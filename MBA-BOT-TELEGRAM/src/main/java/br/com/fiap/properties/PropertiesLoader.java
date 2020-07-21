@@ -2,7 +2,9 @@ package br.com.fiap.properties;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
@@ -16,16 +18,21 @@ import org.apache.log4j.Logger;
 public class PropertiesLoader {
 
 	private static Logger logger;
-	private static String path = "./properties/application.properties";
+	private static String path = "application.properties";
+	private static Properties props;
+
+	public static Properties getProp(){
+		if(props==null){
+			props = loadProps();
+		}
+		return props;
+	}
 	
-	public static Properties getProp() {
-	
+	private static Properties loadProps() {
 		Properties props = new Properties();
-		FileInputStream file;
 		try {
-			file = new FileInputStream(path);
-			props.load(file);
-			file.close();
+			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+			props.load(input);
 		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();
 			logger.error("Houve um problema ao recuperar o " + path);

@@ -4,9 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>MBA-BOT-TELEGRAM</groupId>
 	<artifactId>MBA-BOT-TELEGRAM</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<exec.mainClass>br.com.fiap.Main</exec.mainClass>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -16,6 +29,27 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>br.com.fiap.Main</mainClass>
+<!--					<arguments>-->
+<!--						<argument>foo</argument>-->
+<!--						<argument>bar</argument>-->
+<!--					</arguments>-->
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 	<dependencies>
@@ -30,8 +64,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.20</version>
-			<scope>provided</scope>
+			<version>1.18.10</version>
 		</dependency>
 
 
@@ -62,4 +95,5 @@
 		</dependency>
 
 	</dependencies>
+
 </project>
