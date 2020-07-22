@@ -1,7 +1,6 @@
 package br.com.fiap.helper;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Classe auxiliar para manipulacao de contexto de conversa
@@ -26,7 +25,7 @@ public class HelperString {
      * Obtendo a primeira letra da String , dava pra usar tambem replaceFirst
      *
      * @param letter
-     * @return
+     * @return 
      */
     public static String firstLettertoUpperCase(String letter) {
         return letter.substring(0, 1).toUpperCase() + letter.substring(1);

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"br.com.fiap"},{"l":"br.com.fiap.connectionTelegrambot"},{"l":"br.com.fiap.dto"},{"l":"br.com.fiap.helper"},{"l":"br.com.fiap.interfaces"},{"l":"br.com.fiap.newsapi"},{"l":"br.com.fiap.properties"}]
