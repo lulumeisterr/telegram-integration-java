@@ -6,3 +6,5 @@ RemoteSystemsTempFiles
 MBA-BOT-TELEGRAM/.idea/
 
 MBA-BOT-TELEGRAM/target/
+
+*.iml

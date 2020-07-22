@@ -10,7 +10,7 @@ public enum Classification {
 
     UNKOWN(ClassificationKind.dummy, asList()),
     NEWS(ClassificationKind.contains, asList("news", "notícia", "noticia")),
-    GREETINGS(ClassificationKind.contains, asList("bom dia", "oi", "olá", "iae", "koe", "oi tudo bem", "fmz", "fmza", "eae")),
+    GREETINGS(ClassificationKind.containsIgnoreCase, asList("bom dia", "oi", "olá", "ola", "iae", "koe", "oi tudo bem", "fmz", "fmza", "eae")),
     HELP(ClassificationKind.equalsIgnoreCase, asList("ajuda", "help"));
 
     private final List<String> list;
@@ -23,16 +23,10 @@ public enum Classification {
 
     public static Classification getClassification(String message) {
         for (Classification classification : Classification.values()) {
-            for (String classStrings : classification.list) {
-                if (classification.kind != null) {
-                    if (classification.kind.apply(classStrings, message)) {
-                        return classification;
-                    }
-                } else {
-                    if (ClassificationKind.equalsIgnoreCase.apply(classStrings, message)) {
-                        return classification;
-                    }
-
+            if (classification.kind != null) {
+                if (classification.list.stream()
+                        .anyMatch(a -> classification.kind.apply(message, a))) {
+                    return classification;
                 }
             }
         }
@@ -42,4 +36,5 @@ public enum Classification {
     public List<String> getList() {
         return list;
     }
+
 }
