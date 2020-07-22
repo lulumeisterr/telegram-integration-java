@@ -10,14 +10,12 @@ import com.pengrad.telegrambot.model.request.ChatAction;
 import com.pengrad.telegrambot.request.SendChatAction;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
-import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Classe responsavel por receber a mensagem do usuario e realizar o encaminhamento
@@ -27,8 +25,6 @@ import java.util.stream.Collectors;
 public class SendMessagesToTelegram {
 
     static final Logger logger = LogManager.getLogger(SendMessagesToTelegram.class.getName());
-    private static SendResponse sendResponse;
-    int offSet = 0;
 
     /**
      * Este metodo é responsavel por receber a mensagem do usuario e verificar oq enviar.
@@ -40,6 +36,7 @@ public class SendMessagesToTelegram {
      */
     public static void send(Optional<List<Update>> updates, TelegramBot bot, Classification classification, String msg) {
 
+
         if (updates.isPresent()) {
             updates.get().forEach(up -> {
 
@@ -50,11 +47,11 @@ public class SendMessagesToTelegram {
                         case NEWS:
                             ObjectApi article = NewsApi.callApi(bot, HelperString.limparTagNoticia(up.message().text()));
                             if (article.getTotalResults() == 0) {
-                                sendResponse = textoPersonalizavel(bot, up, "Infelizmente nao encontramos resultados para sua busca \n"
+                                textoPersonalizavel(bot, up, "Infelizmente nao encontramos resultados para sua busca \n"
                                         + "Tente novamente , Digite /noticias e oque voce deseja procurar");
                             } else {
                                 article.getArticles().forEach(art -> {
-                                    sendResponse = textoPersonalizavel(bot, up, "Resultado da sua busca : \n\n"
+                                    textoPersonalizavel(bot, up, "Resultado da sua busca : \n\n"
                                             + HelperString.addLinkNoticia(art.getDescription(), art.getUrl()));
                                 });
                             }
@@ -62,19 +59,19 @@ public class SendMessagesToTelegram {
 
                         case GREETINGS:
                             String EmojiSorrir = "\ud83d\ude00";
-                            sendResponse = textoPersonalizavel(bot, up, HelperString.firstLettertoUpperCase(up.message().text() + "  " + up.message().from().firstName() +
+                            textoPersonalizavel(bot, up, HelperString.firstLettertoUpperCase(up.message().text() + "  " + up.message().from().firstName() +
                                     " , Tudo bem ? " + EmojiSorrir));
                             break;
 
                         case HELP:
-                            sendResponse = textoPersonalizavel(bot, up, "Digite noticias [ e o que vc deseja saber ] \n\n "
+                            textoPersonalizavel(bot, up, "Digite noticias [ e o que vc deseja saber ] \n\n "
                                     + "Exemplo : notícias sobre futebol");
                             break;
 
                         default:
-                            sendResponse = bot.execute(new SendMessage(up.message().chat().id(), "Nao entendi pode digitar novamente ? \n(tente /ajuda ou /help)"));
-                            logger.info("Mensagem Enviada?" + sendResponse.isOk());
-                            logger.info("Recebendo mensagem:" + up.message().text());
+                            SendResponse sendResponse = bot.execute(new SendMessage(up.message().chat().id(), "Nao entendi pode digitar novamente ? \n(tente /ajuda ou /help)"));
+                            logger.info("Mensagem Enviada? " + sendResponse.isOk());
+                            logger.info("Recebendo mensagem: " + up.message().text());
                             break;
                     }
                     //verificação de mensagem enviada com sucesso

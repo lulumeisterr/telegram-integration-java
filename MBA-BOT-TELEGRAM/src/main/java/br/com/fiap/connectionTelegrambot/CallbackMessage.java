@@ -65,7 +65,7 @@ public class CallbackMessage {
                         SendMessagesToTelegram.send(updates, bot, classification, msg);
                     });
                 } else {
-                    logger.info("Sem informacoes de mensagem");
+//                    logger.info("Sem informacoes de mensagem");
                 }
             }
         } catch (NullPointerException e) {

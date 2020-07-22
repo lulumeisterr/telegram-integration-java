@@ -36,7 +36,6 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <phase>install</phase>
                         <goals>
                             <goal>java</goal>
                         </goals>
