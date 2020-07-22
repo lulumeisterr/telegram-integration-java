@@ -1,5 +1,6 @@
 package br.com.fiap.properties;
 
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -13,9 +14,10 @@ import java.util.Properties;
  */
 public class PropertiesLoader {
 
-    private static Logger logger;
-    private static String path = "application.properties";
-    private static Properties props;
+    private static final Logger logger = LogManager.getLogger(PropertiesLoader.class.getName());
+
+    private static final String path = "application.properties";
+    private static Properties props = loadProps();
 
     public static Properties getProp() {
         if (props == null) {

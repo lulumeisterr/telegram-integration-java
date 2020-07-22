@@ -52,7 +52,6 @@ public class SendMessagesToTelegram {
 
                 try {
                     switch (classification) {
-
                         case NEWS:
                             ObjectApi article = NewsApi.callApi(bot, HelperString.limparTagNoticia(up.message().text()));
                             if (article.getTotalResults() == 0) {
@@ -70,18 +69,20 @@ public class SendMessagesToTelegram {
                             sendResponse = textoPersonalizavel(bot, up, HelperString.firstLettertoUpperCase(up.message().text() + "  " + up.message().from().firstName() +
                                     " , Tudo bem ? " + EmojiSorrir));
                             break;
+
                         case HELP:
                             //envio da mensagem de resposta
                             sendResponse = textoPersonalizavel(bot, up, "Digite /noticias [ e o que vc deseja saber ] \n\n "
                                     + "Exemplo : notícias sobre futebol");
-                            //verificação de mensagem enviada com sucesso
+                            break;
+
+                        default:
+                            sendResponse = bot.execute(new SendMessage(up.message().chat().id(), "Nao entendi pode digitar novamente ? \n(tente /ajuda ou /help)"));
                             logger.info("Mensagem Enviada?" + sendResponse.isOk());
                             logger.info("Recebendo mensagem:" + up.message().text());
                             break;
-                        default:
-                            sendResponse = bot.execute(new SendMessage(up.message().chat().id(), "Nao Entendi pode digitar novamente ? ( tente /ajuda ou /help)"));
-                            break;
                     }
+                    //verificação de mensagem enviada com sucesso
                 } catch (NullPointerException e) {
                     logger.error("HOUVE UM PROBLEMA AO PROCESSAR SUA MENSAGEM");
                 } catch (ArrayIndexOutOfBoundsException e) {
