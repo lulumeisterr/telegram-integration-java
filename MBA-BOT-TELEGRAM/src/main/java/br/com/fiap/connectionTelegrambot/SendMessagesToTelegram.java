@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Classe responsavel por receber a mensagem do usuario e realizar o encaminhamento
@@ -26,10 +27,7 @@ import java.util.Optional;
 public class SendMessagesToTelegram {
 
     static final Logger logger = LogManager.getLogger(SendMessagesToTelegram.class.getName());
-    static NewsApi apideNoticias;
-    private static GetUpdatesResponse getPedingMessages;
     private static SendResponse sendResponse;
-    private static BaseResponse baseResponse;
     int offSet = 0;
 
     /**
@@ -41,9 +39,6 @@ public class SendMessagesToTelegram {
      * @param msg
      */
     public static void send(Optional<List<Update>> updates, TelegramBot bot, Classification classification, String msg) {
-
-        String EmojiSorrir = "\ud83d\ude00";
-        getPedingMessages = CallbackMessage.offSet(bot);
 
         if (updates.isPresent()) {
             updates.get().forEach(up -> {
@@ -66,13 +61,13 @@ public class SendMessagesToTelegram {
                             break;
 
                         case GREETINGS:
+                            String EmojiSorrir = "\ud83d\ude00";
                             sendResponse = textoPersonalizavel(bot, up, HelperString.firstLettertoUpperCase(up.message().text() + "  " + up.message().from().firstName() +
                                     " , Tudo bem ? " + EmojiSorrir));
                             break;
 
                         case HELP:
-                            //envio da mensagem de resposta
-                            sendResponse = textoPersonalizavel(bot, up, "Digite /noticias [ e o que vc deseja saber ] \n\n "
+                            sendResponse = textoPersonalizavel(bot, up, "Digite noticias [ e o que vc deseja saber ] \n\n "
                                     + "Exemplo : notícias sobre futebol");
                             break;
 
@@ -83,12 +78,10 @@ public class SendMessagesToTelegram {
                             break;
                     }
                     //verificação de mensagem enviada com sucesso
-                } catch (NullPointerException e) {
-                    logger.error("HOUVE UM PROBLEMA AO PROCESSAR SUA MENSAGEM");
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    logger.error("HOUVE UM PROBLEMA AO RECEBER A LISTA DE MENSAGEM");
+                    logger.error("HOUVE UM PROBLEMA AO RECEBER A LISTA DE MENSAGEM", e);
                 } catch (Exception e) {
-                    logger.error("HOUVE UM PROBLEMA");
+                    logger.error("HOUVE UM PROBLEMA", e);
                 }
             });
 
@@ -103,9 +96,10 @@ public class SendMessagesToTelegram {
      *
      * @param bot
      * @param up
+     * @return Resposta de envio de mensagem do bot
      */
-    public static void enviarEscrevendo(TelegramBot bot, Update up) {
-        baseResponse = bot.execute(new SendChatAction(up.message().chat().id(), ChatAction.typing.name()));
+    public static BaseResponse enviarEscrevendo(TelegramBot bot, Update up) {
+        return bot.execute(new SendChatAction(up.message().chat().id(), ChatAction.typing.name()));
     }
 
     /**
@@ -113,7 +107,7 @@ public class SendMessagesToTelegram {
      *
      * @param bot
      * @param up
-     * @return
+     * @return Resposta de envio de mensagem do bot
      */
     public static SendResponse textoPersonalizavel(TelegramBot bot, Update up, String msg) {
         return bot.execute(new SendMessage(up.message().chat().id(), msg));

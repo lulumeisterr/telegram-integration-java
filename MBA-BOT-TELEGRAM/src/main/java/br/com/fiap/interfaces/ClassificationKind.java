@@ -1,8 +1,22 @@
 package br.com.fiap.interfaces;
 
+import java.util.Objects;
+
+/**
+ * Forma de classificação, ensina como a classificação deve trabalhar
+ *
+ * @author gabriel.ribeiro
+ */
 public interface ClassificationKind {
 
     boolean apply(String message, String str2);
+
+    default ClassificationKind or(ClassificationKind otherKind) {
+        return (message, str2) -> {
+            Objects.requireNonNull(otherKind);
+            return this.apply(message, str2) || otherKind.apply(message, str2);
+        };
+    }
 
     /**
      * do nothing, just return false
@@ -12,7 +26,7 @@ public interface ClassificationKind {
     /**
      * str1 equals str2
      */
-    public ClassificationKind equalsIgnoreCase = (String str1, String str2) -> {
+    ClassificationKind equalsIgnoreCase = (String str1, String str2) -> {
         if (str1 == null && str2 == null) {
             return true;
         } else if (str1 != null && str2 != null) {
@@ -24,7 +38,7 @@ public interface ClassificationKind {
     /**
      * str1 contains str2, with case sensitive
      */
-    public ClassificationKind contains = (String str1, String str2) -> {
+    ClassificationKind contains = (String str1, String str2) -> {
         if (str1 == null && str2 == null) {
             return true;
         } else if (str1 != null && str2 != null) {
@@ -35,7 +49,7 @@ public interface ClassificationKind {
     /**
      * str1 contains str2, ignore case sensitve
      */
-    public ClassificationKind containsIgnoreCase = (String str1, String str2) -> {
+    ClassificationKind containsIgnoreCase = (String str1, String str2) -> {
         if (str1 == null && str2 == null) {
             return true;
         } else if (str1 != null && str2 != null) {

@@ -19,6 +19,12 @@ public class PropertiesLoader {
     private static final String path = "application.properties";
     private static Properties props = loadProps();
 
+    /**
+     * Propriedades da aplicação
+     * <p>
+     *  retorna o objeto Singleton com as propriedades
+     * @return
+     */
     public static Properties getProp() {
         if (props == null) {
             props = loadProps();
@@ -26,6 +32,10 @@ public class PropertiesLoader {
         return props;
     }
 
+    /**
+     * Carrega os valores das propriedades
+     * @return
+     */
     private static Properties loadProps() {
         Properties props = new Properties();
         try {

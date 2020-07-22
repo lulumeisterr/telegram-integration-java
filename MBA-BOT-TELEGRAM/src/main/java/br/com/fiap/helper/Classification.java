@@ -6,10 +6,14 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
+/**
+ * Classificação da mensagem
+ * @author gabriel.ribeiro
+ */
 public enum Classification {
 
     UNKOWN(ClassificationKind.dummy, asList()),
-    NEWS(ClassificationKind.contains, asList("news", "notícia", "noticia")),
+    NEWS(ClassificationKind.containsIgnoreCase.or(ClassificationKind.equalsIgnoreCase), asList("news", "notícia", "noticia")),
     GREETINGS(ClassificationKind.containsIgnoreCase, asList("bom dia", "oi", "olá", "ola", "iae", "koe", "oi tudo bem", "fmz", "fmza", "eae")),
     HELP(ClassificationKind.equalsIgnoreCase, asList("ajuda", "help"));
 
@@ -21,7 +25,7 @@ public enum Classification {
         this.list = list;
     }
 
-    public static Classification getClassification(String message) {
+    public static Classification findClassification(String message) {
         for (Classification classification : Classification.values()) {
             if (classification.kind != null) {
                 if (classification.list.stream()
