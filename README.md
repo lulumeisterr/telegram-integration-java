@@ -12,6 +12,9 @@ Desenvolver um chatbot integrado ao Telegram que consiga responder a pelo menos 
 
 ## Funcionalidades
 
+- Boas vindas
+- /noticias [oque vc deseja procurar]
+
 - Integracao com a api de noticias <b>newsApi</br>
 - Documentação : https://newsapi.org/docs/get-started
 
