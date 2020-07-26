@@ -15,9 +15,6 @@ Desenvolver um chatbot integrado ao Telegram que consiga responder a pelo menos 
 - Boas vindas
 - /noticias [oque vc deseja procurar]
 
-- Integracao com a api de noticias <b>newsApi</br>
-- Documentação : https://newsapi.org/docs/get-started
-
 ## Tecnologias e bibliotecas utilizadas
 
  - Linguagem Java EE
