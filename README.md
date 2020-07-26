@@ -12,7 +12,7 @@ Desenvolver um chatbot integrado ao Telegram que consiga responder a pelo menos 
 
 ## Funcionalidades
 
-- Boas vindas
+- Boas vindas ( Forma de classificação, ensina como a classificação de textos devem trabalhar )
 - /noticias [oque vc deseja procurar]
 
 ## Tecnologias e bibliotecas utilizadas
